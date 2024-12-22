@@ -3,7 +3,7 @@ package Day20;
 import java.util.*;
 
 
-public class Part1_1 {
+public class Part1_3 {
 
     private static char[][] a;
     private static int n;
@@ -14,6 +14,7 @@ public class Part1_1 {
     private static int ie = 0, je = 0;
 
     private static Set<Long> st = new HashSet<>();
+    private static long CNT = 0L;
 
     private static int[][] dirs = {
             {0, -1},
@@ -54,52 +55,34 @@ public class Part1_1 {
 
 
         int count = 0;
-        int distance = getDistance();
-        Set<String> st = new HashSet<>();
+        distance = getDistance();
+        System.out.println(distance);
+        Map<Integer, Integer> mp = new TreeMap<>();
         for(int i = 0; i < n; i ++) {
             for(int j = 0; j < m; j ++) {
-                char c0 = a[i][j];
-//                if (a[i][j] == '#') {
+                if (a[i][j] == '#') {
                     a[i][j] = '.';
-                    for(int t = 2; t < dirs.length; t ++) {
-                        int[] dir = dirs[t];
-                        int i1 = i + dir[0];
-                        int j1 = j + dir[1];
-                        if (i1 < 0 || i1 >= n || j1 < 0 || j1 >= m) continue;
-                        char c = a[i1][j1];
-                        a[i1][j1] = '.';
-                        int d1 = getDistance();
-                        if (d1 < distance && distance - d1 <= 100) {
-                            count ++;
-                            System.out.println(i + " " + j + " " + i1 + " " + j1 + " " + d1);
-                            print(i, j , i1, j1);
-                        }
-                        a[i1][j1] = c;
+                    int d1 = getDistance();
+                    if (d1 < distance && distance - d1 >= 100) {
+                        int d2 = distance - d1;
+                        mp.put(d2, mp.getOrDefault(d2, 0) + 1);
+                        count++;
                     }
-                    a[i][j] = c0;
-//                }
+                    a[i][j] = '#';
+                }
             }
         }
+        for (Map.Entry<Integer, Integer> entry : mp.entrySet()) {
+            System.out.println(entry.getKey() + " " + entry.getValue());
+        }
+
         System.out.println(count);
 
 
+
+
     }
 
-    private static void print(int i1, int j1, int i2, int j2) {
-        for(int i = 0; i < n; i ++) {
-            for(int j = 0 ; j < m; j ++) {
-                if (i1 == i && j1 == j) {
-                    System.out.print('1');
-                } else if (i2 == i && j2 == j) {
-                    System.out.print('2');
-                } else {
-                    System.out.print(a[i][j]);
-                }
-            }
-            System.out.println();
-        }
-        System.out.println();
-    }
 
     private static int getDistance() {
         Queue<int[]> queue = new LinkedList<>();
@@ -122,8 +105,12 @@ public class Part1_1 {
     }
 
 
+
     public static boolean in2(int x, int y) {
         return x >= 0 && x < n && y >= 0 && y < m && a[x][y] != '#';
+    }
+    public static boolean in(int x, int y) {
+        return x >= 0 && x < n && y >= 0 && y < m;
     }
 
 
