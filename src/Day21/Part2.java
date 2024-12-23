@@ -50,7 +50,7 @@ public class Part2 {
             for (String string : s1) {
                 len = Math.min(len, string.length());
             }
-            //System.out.println(s1);
+            System.out.println(s1);
             System.out.println(Long.valueOf(s.substring(0, s.length() - 1)));
             res += Long.valueOf(s.substring(0, s.length() - 1)) * len;
         }
